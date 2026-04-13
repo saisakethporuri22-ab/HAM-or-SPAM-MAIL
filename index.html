@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hangman Game</title>
+
+<style>
+
+body{
+background:linear-gradient(135deg,#1d2671,#c33764);
+font-family:Arial;
+text-align:center;
+color:white;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+background:rgba(0,0,0,0.5);
+padding:40px;
+border-radius:15px;
+width:500px;
+box-shadow:0 0 20px black;
+}
+
+h1{
+letter-spacing:3px;
+}
+
+.word{
+font-size:30px;
+letter-spacing:10px;
+margin:20px;
+}
+
+input{
+padding:10px;
+font-size:18px;
+border:none;
+border-radius:5px;
+width:80px;
+text-align:center;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+margin-left:10px;
+border:none;
+border-radius:5px;
+background:#00e6e6;
+cursor:pointer;
+}
+
+button:hover{
+background:#00b3b3;
+transform:scale(1.05);
+}
+
+.hint{
+margin-top:10px;
+font-style:italic;
+color:#ffd700;
+}
+
+.status{
+margin-top:15px;
+font-size:18px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Hangman Game</h1>
+
+<div class="hint" id="hint"></div>
+
+<div class="word" id="word"></div>
+
+<input type="text" id="letter" maxlength="1">
+<button onclick="guess()">Guess</button>
+
+<div class="status" id="status"></div>
+
+</div>
+
+<script>
+
+let words=[
+{word:"python",hint:"Popular programming language"},
+{word:"computer",hint:"Electronic machine"},
+{word:"internet",hint:"Global network"},
+{word:"algorithm",hint:"Step by step problem solving method"},
+{word:"database",hint:"Stores structured data"}
+]
+
+let random=words[Math.floor(Math.random()*words.length)]
+let word=random.word
+let hint=random.hint
+
+let display=[]
+let chances=6
+
+for(let i=0;i<word.length;i++)
+display.push("_")
+
+document.getElementById("word").innerText=display.join(" ")
+document.getElementById("hint").innerText="Hint: "+hint
+
+function guess(){
+
+let letter=document.getElementById("letter").value
+document.getElementById("letter").value=""
+
+let found=false
+
+for(let i=0;i<word.length;i++){
+if(word[i]==letter){
+display[i]=letter
+found=true
+}
+}
+
+if(!found){
+chances--
+}
+
+document.getElementById("word").innerText=display.join(" ")
+
+if(display.join("")==word){
+document.getElementById("status").innerText="🎉 You Won! Word is "+word
+}
+
+else if(chances==0){
+document.getElementById("status").innerText="💀 Game Over! Word was "+word
+}
+
+else{
+document.getElementById("status").innerText="Chances left: "+chances
+}
+
+}
+
+</script>
+
+</body>
+</html>
